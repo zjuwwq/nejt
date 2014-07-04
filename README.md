@@ -1,4 +1,4 @@
-net
+nejt
 ===
 
-a nice easy javascript tempate
+a nice easy javascript template

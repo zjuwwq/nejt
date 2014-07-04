@@ -1,0 +1,23 @@
+{
+  "name": "nejt",
+  "version": "0.0.1",
+  "description": "a nice easy javascript template",
+  "author": "https://github.com/zjuwwq/nejt/graphs/contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/zjuwwq/nejt",
+  "main": "./nejt.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "bower_components",
+    "test*",
+    "demo*",
+    "GruntFile.js",
+    "*.json"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
