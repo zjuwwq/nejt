@@ -4,7 +4,7 @@ nejt
 a nice easy javascript template, a embedded javascript template.
 
 # Installtion
-Download:[Source](https://raw.githubusercontent.com/zjuwwq/nejt/master/injector.js) | [Minified](https://raw.githubusercontent.com/zjuwwq/nejt/master/injector.min.js)
+Download:[Source](https://raw.githubusercontent.com/zjuwwq/nejt/master/nejt.js) | [Minified](https://raw.githubusercontent.com/zjuwwq/nejt/master/nejt.min.js)
 
 Npm: `npm install nejt`
 
