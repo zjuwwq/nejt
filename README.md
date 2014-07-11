@@ -3,7 +3,7 @@ nejt
 
 a nice easy javascript template, a embedded javascript template.
 
-# 1. Installtion
+# 1. Installation
 Download:[Source](https://raw.githubusercontent.com/zjuwwq/nejt/master/nejt.js) | [Minified](https://raw.githubusercontent.com/zjuwwq/nejt/master/nejt.min.js)
 
 Npm: `npm install nejt`
