@@ -8,10 +8,8 @@ describe('nejt - a nice easy javascript template', function() {
 		};
 	});
 	it('Interpolation', function() {
-		var template = NEJT.compile('Hello, <%= name %>.<%= age %>');
-		expect(template({
-			name: 'Jack'
-		})).toEqual('Hello, Jack.');
+		var str = NEJT.render('Hello, <%= name %>.<%= age %>', {name: 'Jack'});
+		expect(str).toEqual('Hello, Jack.');
 	});
 	it('Using javascript in template', function() {
 		var str = '<ul>\
@@ -19,7 +17,6 @@ describe('nejt - a nice easy javascript template', function() {
 					<li><%= users[i].name %><% if(i<len-1){ %>, <% } %></li>\
 				<% } %>\
 			</ul>';
-		var template = NEJT.compile(str);
 		var users = [{
 			name: "wwq",
 			age: 30
@@ -30,18 +27,16 @@ describe('nejt - a nice easy javascript template', function() {
 			name: "gp",
 			age: 33
 		}];
-		expect(template({
-			users: users
-		}).replace(/[\t\n]/mg, '')).toEqual('<ul><li>wwq, </li><li>hxl, </li><li>gp</li></ul>');
+		var htmlStr = NEJT.render(str, {users: users});
+		expect(htmlStr.replace(/[\t\n]/mg, '')).toEqual('<ul><li>wwq, </li><li>hxl, </li><li>gp</li></ul>');
 	});
 	it('Custom delimiters', function() {
+		NEJT.config.startTag = '[[';
+		NEJT.config.endTag = ']]';
 		var str = '[[for(var i=0,user,len=users.length;i<len;i++){ ]]\
 				[[= users[i].name ]]\
 				[[ if(i<len-1){ ]], [[ } ]]\
 			[[ } ]]';
-		NEJT.config.startTag = '[[';
-		NEJT.config.endTag = ']]';
-		var template = NEJT.compile(str);
 		var users = [{
 			name: "wwq",
 			age: 30
@@ -52,26 +47,24 @@ describe('nejt - a nice easy javascript template', function() {
 			name: "gp",
 			age: 33
 		}];
-		expect(template({
-			users: users
-		}).replace(/[\t\n]/mg, '')).toEqual('wwq, hxl, gp');
+		var htmlStr = NEJT.render(str, {users: users});
+		expect(htmlStr.replace(/[\t\n]/mg, '')).toEqual('wwq, hxl, gp');
 	});
 	it('Custom interpolation symbol', function() {
 		NEJT.config.interpolationTag = '~';
-		var template = NEJT.compile('Hello, <%~ name %>.<%~ age %>');
-		expect(template({
-			name: 'Jack'
-		})).toEqual('Hello, Jack.');
+		var str = NEJT.render('Hello, <%~ name %>.<%~ age %>', {name: 'Jack'});
+		expect(str).toEqual('Hello, Jack.');
 	});
 	it('Escape', function() {
-		var template = NEJT.compile('<p>Hello, <%= name %>.</p>');
-		expect(template({
-			name: '</p>Jack'
-		})).toEqual('<p>Hello, &lt;/p&gt;Jack.</p>');
+		var str = NEJT.render('<p>Hello, <%= name %>.</p>', {name: '</p>Jack'});
+		expect(str).toEqual('<p>Hello, &lt;/p&gt;Jack.</p>');
 		NEJT.config.isEscape = false;
-		var template = NEJT.compile('<p>Hello, <%= name %>.</p>');
-		expect(template({
-			name: '</p>Jack'
-		})).toEqual('<p>Hello, </p>Jack.</p>');
+		str = NEJT.render('<p>Hello, <%= name %>.</p>', {name: '</p>Jack'});
+		expect(str).toEqual('<p>Hello, </p>Jack.</p>');
+	});
+	it('Compile once, use any times', function() {
+		var render = NEJT.compile('Hello, <%= name %>.');
+		expect(render({name: 'Jack'})).toEqual('Hello, Jack.');
+		expect(render({name: 'Tom'})).toEqual('Hello, Tom.');
 	});
 });

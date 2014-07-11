@@ -48,11 +48,33 @@
 		return Object.prototype.toString.call(obj).match(TYPE_REGEXP)[1].toLowerCase();
 	}
 	/**
+	 * get element by id
+	 * @param  {String} id
+	 * @return {HTMLElement}
+	 */
+	function $(id) {
+		return type(id) === 'string' ? document.getElementById(id) : id;
+	}
+	/**
+	 * set the innerHTML of the element
+	 * @param  {String} html
+	 * @param  {HTMLElement} element
+	 * @return {Void}
+	 */
+	function innerHTML(html, element) {
+		element = $(element);
+		if (element && ('innerHTML' in element)) {
+			element.innerHTML = html === undefined ? '' : html;
+		}
+	}
+	/**
 	 * compile template string
 	 * @param  {String} templateStr template string
 	 * @return {Function}     template function
 	 */
 	function compile(templateStr) {
+		var templateElement = $(templateStr);
+		templateStr = templateElement && templateElement.innerHTML || templateStr;
 		if (type(templateStr) !== 'string') return;
 		var matches,
 			startTag = escapeRegexp(this.config.startTag || START_TAG),
@@ -82,13 +104,34 @@
 		}
 		codes.push('arr.push("' + templateStr.substring(cursor) + '");');
 		fn = new Function('context', 'with(context){' + codes.join('') + '}return arr.join("");');
-		return function(){
+		return function() {
 			var context = arguments[0] || {};
-			return fn.call({__escape__: escape}, context);
+			var html = fn.call({
+				__escape__: escape
+			}, context);
+			innerHTML(html, arguments[1]);
+			return html;
 		};
 	}
+	/**
+	 * render template string with context to the element
+	 * @param  {String} templateStr
+	 * @param  {Object} context
+	 * @param  {HTMLElement} element
+	 * @return {String}             the result string of render template string with context
+	 */
+	function render(templateStr, context, element) {
+		var template = compile.call(this, templateStr);
+		if (type(template) === 'function') {
+			var html = template(context);
+			innerHTML(html, element);
+			return html;
+		}
+	}
+
 	return {
 		compile: compile,
+		render: render,
 		config: {
 			startTag: START_TAG,
 			endTag: END_TAG,

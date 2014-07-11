@@ -13,13 +13,19 @@
 			<% } %>
 		</ul>
 	</script>
+	<div id="a"></div>
+	<div id="b"></div>
 	<script src="../nejt.js"></script>
 	<script>
-		var str = document.getElementById('users').innerHTML;
-		var template = NEJT.compile(str);
 		var users = [{name: "wwq", age: 30}, {name: "hxl", age: 32}, {name: "gp", age: 33}];
-		var html = template({users: users});
-		document.getElementById('xx').innerHTML = html;
+		NEJT.render('users', {users: users}, 'xx');
+
+		var render = NEJT.compile('Hello, <%= name %>.');
+		render({name: 'Jack'}, 'a');
+
+		var html = render({name: 'Tom'});
+		document.getElementById('b').innerHTML = html;
+
 	</script>
 </body>
 </html>
