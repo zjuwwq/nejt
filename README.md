@@ -21,10 +21,12 @@ template({name: 'Jack'}) // 'Hello, Jack.'
 ## Using javascript in template
 
 ``` javascript
-var str = '<%for(var i=0,user,len=users.length;i<len;i++){ %>\
-			<%= users[i].name %>\
-			<% if(i<len-1){ %>, <% } %>\
-		<% } %>';
+// Using javascript in template
+var str = '<ul>\
+			<%for(var i=0,user,len=users.length;i<len;i++){ %>\
+				<li><%= users[i].name %><% if(i<len-1){ %>, <% } %></li>\
+			<% } %>\
+		</ul>';
 var template = NEJT.compile(str);
 var users = [{
 	name: "wwq",
@@ -36,12 +38,13 @@ var users = [{
 	name: "gp",
 	age: 33
 }];
-template({users: users});	// 'wwq, hxl, gp'
+template({users: users}).replace(/[\t\n]/mg,'');	// '<ul><li>wwq, </li><li>hxl, </li><li>gp</li></ul>'
 ```
 
 ## Custom delimiters
 
 ``` javascript
+// Custom delimiters
 var str = '[[for(var i=0,user,len=users.length;i<len;i++){ ]]\
 			[[= users[i].name ]]\
 			[[ if(i<len-1){ ]], [[ } ]]\
@@ -59,7 +62,7 @@ var users = [{
 	name: "gp",
 	age: 33
 }];
-template({users: users});	// 'wwq, hxl, gp'
+template({users: users}).replace(/[\t\n]/mg,'');	// 'wwq, hxl, gp'
 ```
 
 

@@ -19,19 +19,30 @@
 		SPECIAL_REGEXP = /[$^().*+?\[\]\\{}|]/g;
 	/**
 	 * escape the special characters in the regexp string
-	 * @param  {String} regexpStr regexp string
-	 * @return {String}     escaped string
+	 * @param  {String} regexpStr
+	 * @return {String}
 	 */
-	function escape(regexpStr) {
+	function escapeRegexp(regexpStr) {
 		if (type(regexpStr) !== 'string') return;
 		return regexpStr.replace(SPECIAL_REGEXP, function(m) {
 			return '\\' + m;
 		});
 	}
 	/**
-	 * 获取对象类型
-	 * @param  {Object} obj 对象
-	 * @return {String}     类型
+	 * escape the special characters in the html string
+	 * @param  {String} htmlStr
+	 * @return {String}
+	 */
+	function escape(htmlStr) {
+		if (type(htmlStr) !== 'string') return;
+		return htmlStr.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;');
+	}
+	/**
+	 * get the object type
+	 * @param  {Object} obj
+	 * @return {String}
 	 */
 	function type(obj) {
 		return Object.prototype.toString.call(obj).match(TYPE_REGEXP)[1].toLowerCase();
@@ -44,37 +55,45 @@
 	function compile(templateStr) {
 		if (type(templateStr) !== 'string') return;
 		var matches,
-			startTag = escape(this.config.startTag || START_TAG),
-			endTag = escape(this.config.endTag || END_TAG),
+			startTag = escapeRegexp(this.config.startTag || START_TAG),
+			endTag = escapeRegexp(this.config.endTag || END_TAG),
+			isEscape = this.config.isEscape,
 			interpolationTag = this.config.interpolationTag || INTERPOLATION_TAG,
 			tokenRegexp = new RegExp(startTag + '([\\s\\S]*?)' + endTag, 'mg'),
 			codes = ['var arr = [];'],
 			cursor = 0,
 			str,
-			fnStr;
+			fn;
 
-		templateStr = templateStr.replace(new RegExp('[\\t\\r\\n]+(' + startTag + ')', 'g'), '$1')
-			.replace(new RegExp('(' + endTag + ')[\\t\\r\\n]+', 'g'), '$1');
+		// templateStr = templateStr.replace(new RegExp('[\\t\\r\\n]+(' + startTag + ')', 'g'), '$1')
+		//	.replace(new RegExp('(' + endTag + ')[\\t\\r\\n]+', 'g'), '$1');
+		templateStr = templateStr.replace(/\r/g, '').replace(/\n/g, '\\n');
 		while (matches = tokenRegexp.exec(templateStr)) {
 			codes.push('arr.push("' + templateStr.substring(cursor, matches.index) + '");');
 			code = matches[1].trim();
 			if (code.indexOf(interpolationTag) === 0) {
 				code = code.substring(interpolationTag.length).trim();
-				codes.push('try{arr.push(' + code + ');}catch(e){}');
+				code = isEscape ? 'this.__escape__(' + code + ')' : code;
+				codes.push('try{arr.push(' + code + ');}catch(e){console.log(e);}');
 			} else {
 				codes.push(code);
 			}
 			cursor = tokenRegexp.lastIndex;
 		}
-		fnStr = 'context=context||{};with(context){' + codes.join('') + '}return arr.join("");';
-		return new Function('context', fnStr);
+		codes.push('arr.push("' + templateStr.substring(cursor) + '");');
+		fn = new Function('context', 'with(context){' + codes.join('') + '}return arr.join("");');
+		return function(){
+			var context = arguments[0] || {};
+			return fn.call({__escape__: escape}, context);
+		};
 	}
 	return {
 		compile: compile,
 		config: {
 			startTag: START_TAG,
 			endTag: END_TAG,
-			interpolationTag: INTERPOLATION_TAG
+			interpolationTag: INTERPOLATION_TAG,
+			isEscape: true
 		}
 	};
 });

@@ -9,10 +9,11 @@ var NEJT = require('./nejt.js');
 
 (function() {
 	// Using javascript in template
-	var str = '<%for(var i=0,user,len=users.length;i<len;i++){ %>\
-				<%= users[i].name %>\
-				<% if(i<len-1){ %>, <% } %>\
-			<% } %>';
+	var str = '<ul>\
+				<%for(var i=0,user,len=users.length;i<len;i++){ %>\
+					<li><%= users[i].name %><% if(i<len-1){ %>, <% } %></li>\
+				<% } %>\
+			</ul>';
 	var template = NEJT.compile(str);
 	var users = [{
 		name: "wwq",
@@ -26,10 +27,10 @@ var NEJT = require('./nejt.js');
 	}];
 	console.log(template({
 		users: users
-	}));	// 'wwq, hxl, gp'
+	}).replace(/[\t\n]/mg,''));	// '<ul><li>wwq, </li><li>hxl, </li><li>gp</li></ul>'
 })();
 (function() {
-	// Using javascript in template
+	// Custom delimiters
 	var str = '[[for(var i=0,user,len=users.length;i<len;i++){ ]]\
 				[[= users[i].name ]]\
 				[[ if(i<len-1){ ]], [[ } ]]\
@@ -49,5 +50,5 @@ var NEJT = require('./nejt.js');
 	}];
 	console.log(template({
 		users: users
-	}));	// 'wwq, hxl, gp'
+	}).replace(/[\t\n]/mg,''));	// 'wwq, hxl, gp'
 })();

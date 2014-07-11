@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>nejt demo</title>
+</head>
+<body>
+	<div id="xx"></div>
+	<script type="text/nejt" id="users">
+		<ul>
+			<% for(var i=0,user,len=users.length;i<len;i++){ %>
+				<li><%= users[i].name %><% if(i<len-1){ %>, <% } %></li>
+			<% } %>
+		</ul>
+	</script>
+	<script src="../nejt.js"></script>
+	<script>
+		var str = document.getElementById('users').innerHTML;
+		var template = NEJT.compile(str);
+		var users = [{name: "wwq", age: 30}, {name: "hxl", age: 32}, {name: "gp", age: 33}];
+		var html = template({users: users});
+		document.getElementById('xx').innerHTML = html;
+	</script>
+</body>
+</html>
