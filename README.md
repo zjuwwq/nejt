@@ -12,43 +12,48 @@ Bower: `bower install nejt`
 # 2. API
 
 ## 2.1 render
-_Description_
+__Description__
 
 Render the template string and the data, then set the result to be the element's `innerHTML`.
-_Syntax_
+
+__Syntax__
 
 `NEJT.render(templateStr, data[, element|elementId])`
-_Parameters_
+
+__Parameters__
 
 * templateStr - the template string
 * data - the data
 * element|elementId - the container element/element's id
-_Returns_
+
+__Returns__
 
 the result string rendered from the template string and the data.
-_Examples_
 
-[Demo0](#render0), [Demo1](#render1)
+__Examples__
+
+[demo0](#render0), [demo1](#render1)
 
 ## 2.2 compile
-_Description_
+__Description__
 
 Compile the template string to a render function which can render with the data many times.
-_Syntax_
+
+__Syntax__
 
 `NEJT.Compile(templateStr)`
-_Parameters_
+
+__Parameters__
 
 * templateStr - the template string
-_Returns_
+
+__Returns__
 
 the render function compile from the template string.
-_Examples_
 
-[Demo0](#compile0), [Demo1](#compile1)
+__Examples__
 
-
-# 3. Options
+[demo0](#compile0), [demo1](#compile1)
 
 # 4. Getting Started
 ## Interpolation
