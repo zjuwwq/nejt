@@ -144,7 +144,7 @@ javascript:
 var users = [{name: "wwq", age: 30}, {name: "hxl", age: 32}, {name: "gp", age: 33}];
 NEJT.render('users', {users: users}, 'xx');
 ```
-<a name="compile0"></a>
+<a name="compile1"></a>
 ### Compile once, use any times
 
 ```html
