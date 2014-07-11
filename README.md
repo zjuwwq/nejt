@@ -24,7 +24,7 @@ __Parameters__
 
 * templateStr - the template string
 * data - the data
-* element|elementId - the container element/element's id
+* element | elementId - the container element/element's id
 
 __Returns__
 
