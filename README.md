@@ -36,6 +36,7 @@ var users = [{
 	age: 33
 }];
 var htmlStr = NEJT.render(str, {users: users});
+// delete tab and line-break
 htmlStr.replace(/[\t\n]/mg, '');		//'<ul><li>wwq, </li><li>hxl, </li><li>gp</li></ul>'
 ```
 
@@ -59,6 +60,7 @@ var users = [{
 	age: 33
 }];
 var htmlStr = NEJT.render(str, {users: users});
+// delete tab and line-break
 htmlStr.replace(/[\t\n]/mg, '');		//'wwq, hxl, gp'
 ```
 
