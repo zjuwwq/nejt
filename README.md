@@ -3,20 +3,49 @@ nejt
 
 a nice easy javascript template, a embedded javascript template.
 
-# Installtion
+# 1. Installtion
 Download:[Source](https://raw.githubusercontent.com/zjuwwq/nejt/master/nejt.js) | [Minified](https://raw.githubusercontent.com/zjuwwq/nejt/master/nejt.min.js)
 
 Npm: `npm install nejt`
 
 Bower: `bower install nejt`
+# 2. API
 
-# Getting Started
+## 2.1 __render__
+__Description
+	Render the template string and the data, then set the result to be the element's `innerHTML`.
+__Syntax__
+	NEJT.render(templateStr, data[, element|elementId])
+——Parameters__
+	* templateStr - the template string
+	* data - the data
+	* element|elementId - the container element/element's id
+__Returns__
+	the result string rendered from the template string and the data.
+[__Demo0__](#render0), [__Demo1__](#render1)
+
+## 2.2 __compile__
+__Description
+	Compile the template string to a render function which can render with the data many times.
+__Syntax__
+	NEJT.Compile(templateStr)
+——Parameters__
+	* templateStr - the template string
+__Returns__
+	the render function compile from the template string.
+[__Demo0__](#compile0), [__Demo1__](#compile1)
+
+
+# 3. Options
+
+# 3. Getting Started
 ## Interpolation
 
 ```javascript
 NEJT.render('Hello, <%= name %>.<%= age %>', {name: 'Jack'});	// 'Hello, Jack.'
 ```
 
+<a name="render0"></a>
 ## Using javascript in template
 
 ``` javascript
@@ -69,7 +98,7 @@ htmlStr.replace(/[\t\n]/mg, '');		//'wwq, hxl, gp'
 NEJT.config.interpolationTag = '~';
 NEJT.render('Hello, <%~ name %>.<%~ age %>', {name: 'Jack'});	// 'Hello, Jack.'
 ```
-
+<a name="compile0"></a>
 ## Compile once, use any times
 ```javascript
 var render = NEJT.compile('Hello, <%= name %>.');
@@ -78,6 +107,7 @@ render({name: 'Tom'});		//'Hello, Tom.'
 ```
 
 ## Using in browser
+<a name="render1"></a>
 ### Template in script element
 html:
 
@@ -97,6 +127,7 @@ javascript:
 var users = [{name: "wwq", age: 30}, {name: "hxl", age: 32}, {name: "gp", age: 33}];
 NEJT.render('users', {users: users}, 'xx');
 ```
+<a name="compile0"></a>
 ### Compile once, use any times
 
 ```html
