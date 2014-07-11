@@ -14,8 +14,7 @@ Bower: `bower install nejt`
 ## Interpolation
 
 ```javascript
-var template = NEJT.compile('Hello, <%= name %>.<%= age %>'); 
-template({name: 'Jack'}) // 'Hello, Jack.'
+NEJT.render('Hello, <%= name %>.<%= age %>', {name: 'Jack'});	// 'Hello, Jack.'
 ```
 
 ## Using javascript in template
