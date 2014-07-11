@@ -13,28 +13,38 @@ Bower: `bower install nejt`
 
 ## 2.1 render
 Description
+
 	Render the template string and the data, then set the result to be the element's innerHTML.
 Syntax
+
 	NEJT.render(templateStr, data[, element|elementId])
 Parameters
+
 	. templateStr - the template string
 	. data - the data
 	. element|elementId - the container element/element's id
 Returns
+
 	the result string rendered from the template string and the data.
 Examples
+
 	[Demo0](#render0), [Demo1](#render1)
 
 ## 2.2 compile
 Description
+
 	Compile the template string to a render function which can render with the data many times.
 Syntax
+
 	NEJT.Compile(templateStr)
 Parameters
+
 	. templateStr - the template string
 Returns
+
 	the render function compile from the template string.
 Examples
+
 	[Demo0](#compile0), [Demo1](#compile1)
 
 
